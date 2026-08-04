@@ -61,27 +61,27 @@ La estructura documental se define desde el inicio del proyecto y se completa a 
 
 | Parte | Capítulo | Estado y alcance |
 | --- | --- | --- |
-| I. Planteo | 1. Introducción | Redactado. Situación del acervo y del laboratorio, cese del telecine y línea de base manual, objetivos, y frontera del proyecto: qué queda adentro del PI, qué del lado del CDA y bajo qué condiciones se evalúa. |
-| | 2. Marco teórico | Parcial. Conservación y geometría del filme, transporte, detección, captura y estado del arte. Fija en un solo lugar las tres funciones de las que cuelga todo el desarrollo, y termina en piezas genéricas: las elegidas se justifican después. |
+| I. Planteo | 1. Introducción | Redactado. Situación del acervo y del laboratorio, cese del telecine comercial y reemplazo manual subóptimo, objetivos, y frontera del proyecto: qué queda adentro del PI, qué del lado del CDA y bajo qué condiciones se evalúa. |
+| | 2. Marco teórico | Parcial. Conservación y geometría del filme, transporte, detección, captura y estado del arte. Fija en un solo lugar la transferencia de dominio del mundo archivista al de ingeniería, y termina en piezas genéricas a diseñar: los diseños e implementación se desarrollan después. |
 | | 3. Elicitación | Redactado. Problemáticas relevadas en el laboratorio, restricciones que impone el equipamiento existente, y los trece requerimientos con su tipo, su origen y su medio de verificación. |
-| | 4. Metodología | Estructura definida. Ciclo de vida, gestión de configuración, estrategia de testing, métricas de calidad, gestión de riesgos y filosofía abierta, con el detalle de cómo se verifica cada una. |
-| II. Desarrollo | 5. Arquitectura general | Estructura definida. Mapa de los capítulos 6 a 12: qué subsistema resuelve qué, con qué tecnología y con qué interfaz habla con los demás. |
+| | 4. Metodología | Estructura definida. Ciclo de vida, gestión de configuración, estrategia de testing, métricas de calidad, gestión de riesgos y filosofía abierta, con el detalle de cómo se verifica cada una. Todo a nivel diseño. |
+| II. Desarrollo | 5. Arquitectura general | Estructura definida. Mapa de los capítulos 6 a 12: qué subsistema resuelve qué, con qué tecnología y con qué interfaz habla con los demás. Habla también de decisiones concretas de cómo se implementó el capítulo 4. |
 | | 6. Hardware y placas | Estructura definida. Elección del driver frente a alternativas, placas de driver, placa concentradora, bus compartido y distribución de alimentación. |
-| | 7. Armazón, modelos 3D y planos | Estructura definida. Rodillos capstan y de tensión, disposición óptica y mecánica sobre la mesa existente, y gabinetes. Todo definido de forma paramétrica en código. |
+| | 7. Armazón, modelos 3D y planos | Estructura definida. Rodillos capstan y de tensión, disposición óptica y mecánica del dispositivo, y gabinetes de sus módulos. Todo definido de forma paramétrica en código. |
 | | 8. Firmware | Redactado. Firmware del microcontrolador: capa de abstracción sobre el driver, generación de temporización, control de líneas y atención del enlace de procedimientos remotos con la PC. |
 | | 9. Detección | Estructura definida. Algoritmo de centrado por correlación cruzada, dataset de referencia, algoritmos de apoyo y comparativa entre ellos sobre material del acervo. |
 | | 10. Captura | Estructura definida. Cliente propio sobre la interfaz de la cámara: arquitectura en capas, control de disparo, configuración y monitoreo de estado. |
 | | 11. Interfaz de operación | Estructura definida. Interfaz gráfica con la que el operador configura, inicia, detiene y monitorea la digitalización, y su validación de experiencia de uso. |
-| | 12. Aplicación central | Estructura definida. El orquestador que coordina transporte, detección y captura, decide el disparo y produce el registro por fotograma, dandole acceso de seguimiento a la interfaz gráfica. Cierra el desarrollo. |
+| | 12. Aplicación central | Estructura definida. El orquestador que coordina transporte, detección y captura, decide el disparo y produce el registro por fotograma, dándole acceso de seguimiento a la interfaz gráfica. Cierra el desarrollo. |
 | III. Cierre | 13. Resultados | Estructura definida. Validación de integración sobre material real, situación final del dispositivo y las métricas declaradas en el capítulo 3: error de centrado, cadencia contra la línea de base manual, tasa de éxito y manejo de excepciones. |
 | | 14. Conclusiones | Estructura definida. Cierre contra los objetivos del capítulo 1, uno por uno, y trabajo futuro. |
 | Anexos | A. Manual de Operación del Digitalizador | Pendiente. Consiste en un manual para que un operario pueda entender como operar el dispositivo, con troubleshooting básico y mantenimiento/reparación. |
-| | B. CCAPI | Pendiente, contenido preliminar existente por las PPS. Consiste en un manual de como funciona Canon Camera Control API en general y en partícular, para poder justificar la existencia y el diseño del cliente y poder ofrecerle a un equipo de desarrollo futuro herramientas para mejorar el cliente sin tener que solicitarle nuevamente el acceso al equipo de desarrollo de Canon |
+| | B. CCAPI | Pendiente, contenido preliminar existente por las PPS. Consiste en un manual de como funciona Canon Camera Control API en general y en particular, para poder justificar la existencia y el diseño del cliente y poder ofrecerle a un equipo de desarrollo futuro herramientas para mejorar el cliente sin tener que solicitarle nuevamente el acceso al equipo de desarrollo de Canon. |
 | | C. Documentación derivada del código y artefactos de fabricación | Estructura definida, será generado automáticamente por CI/CD. |
 
 ### Mecanismos de trazabilidad
 
-Cuatro mecanismos sostienen que lo anterior sea auditable y no declarativo:
+Tres mecanismos sostienen que lo anterior sea auditable y no declarativo:
 
 1. **Repositorio distribuido con integración continua.** Cada cambio queda registrado con su autoría y su motivo. El pipeline ejecuta compilación reproducible, análisis estático y pruebas de regresión, y los ganchos de repositorio impiden incorporar cambios que no pasen esas verificaciones.
 2. **Documentación derivada del código.** La referencia de API se genera desde el propio código, lo que evita que la documentación y la implementación se separen con el tiempo.
@@ -91,10 +91,10 @@ Cuatro mecanismos sostienen que lo anterior sea auditable y no declarativo:
 
 Dado que la integridad del material se degrada de forma continua e irreversible, se avanzó con el desarrollo antes de la aprobación formal del tema. A la fecha existe:
 
-- La documentación de la CCAPI, redactadas a modo preliminar durante la práctica profesional supervisada. Requiere refactorización.
+- La documentación de la CCAPI, redactada a modo preliminar durante la práctica profesional supervisada. Requiere refactorización.
 - Las bibliotecas de control del driver y del enlace de comunicación RPC, implementadas, con pruebas unitarias y verificación automática en integración continua y pruebas en Hardware.
-- El firmware del microcontrolador con la capa de abstracción sobre el driver y el enlace de procedimientos remotos hacia la PC, a nivel preliminar. Requiere especificar los proceedimientos de alto nivel, que a su vez requiere que el resto de subsistemas esté funcional.
+- El firmware del microcontrolador con la capa de abstracción sobre el driver y el enlace de procedimientos remotos hacia la PC, a nivel preliminar. Falta especificar los procedimientos de alto nivel, que a su vez requieren que el resto de subsistemas esté funcional.
 - Un cliente de la CCAPI funcional como prueba de concepto, con control remoto del disparo verificado sobre la cámara del laboratorio. Requiere refinación de API.
-- Un prototipo de detección por correlación cruzada, evaluado sobre un dataset obtenido de la digitalización manual, que devuelve desplazamiento en píxeles y confianza sobre material deteriorado real. Preliminar y sin sistema de votación o heurísticas cruzadas.
+- Un prototipo de detección por correlación cruzada, evaluado sobre material deteriorado real, que devuelve desplazamiento y confianza. Falta el sistema de votación y un mejor dataset.
 - Prototipos mecánicos iniciales modelados en 3D: gabinete de una fuente conmutada y rodillo capstan. Ambos modelos son prototipos que requieren cambios.
 - El informe con su estructura completa definida, sus tres primeros capítulos redactados.
