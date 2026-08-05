@@ -4,18 +4,18 @@
 
 == Situación
 
-El Centro de Conservación y Documentación Audiovisual (CDA), dependiente de la Facultad de Filosofía y Humanidades y de la Facultad de Artes de la Universidad Nacional de Córdoba (UNC), tiene como misión la recuperación, preservación, investigación y puesta en valor del patrimonio audiovisual de la región. #nota[El CDA se conformó en 1994 a partir de un convenio con los Servicios de Radio y Televisión de la UNC, y fue institucionalizado como dependencia por Ordenanza 02/02 del HCD de la Facultad de Filosofía y Humanidades. Desde 2011 la dependencia es compartida con la Facultad de Artes @cda-sitio @cda-artes.] Su acervo custodia colecciones fotográficas e históricas de acceso público: más de 8.000 negativos de vidrio de la colección periodística Antonio Novello (1920-1955), digitalizados con escáneres planos de alta resolución, y un volumen que la propia institución estima en *75.000 rollos de película cinematográfica* @cda-sitio. Ese fondo fílmico abarca el archivo del Noticiero Canal 10 (1962-1980), el del Noticiero Canal 12 (1996-2001), el primer noticiero cinematográfico producido en Córdoba, la filmografía completa del director Alfredo Mathé y las colecciones de la Cinemateca de la Escuela de Artes (1964-1974).
+El Centro de Conservación y Documentación Audiovisual (CDA), dependiente de la Facultad de Filosofía y Humanidades y de la Facultad de Artes de la Universidad Nacional de Córdoba (UNC), tiene como misión la recuperación, preservación, investigación y puesta en valor del patrimonio audiovisual de la región. #nota[El CDA se conformó en 1994 a partir de un convenio con los Servicios de Radio y Televisión de la UNC, y fue institucionalizado como dependencia por Ordenanza 02/02 del HCD de la Facultad de Filosofía y Humanidades. Desde 2011 la dependencia es compartida con la Facultad de Artes @cda-historia.] Su acervo custodia colecciones fotográficas y cinematográficas históricas de acceso público. El núcleo del fondo fílmico es el archivo del Noticiero Canal 10 (1962-1980), cuyo inventario, realizado tras el traslado del archivo al ámbito del CDA en 1994, estableció la existencia de *70.000 rollos de película* @cda-canal10. A ese fondo se suman el archivo del Noticiero Canal 12 (1966-2001), que junto con el de Canal 10 pone a disposición más de 18.000 noticias, el primer noticiero cinematográfico producido en Córdoba, la filmografía completa del director Alfredo Mathé y las colecciones de la Cinemateca de la Escuela de Artes (1964-1974), entre otros @cda-consultas @cda-historia @uncinnova-cda.
 
 #figure(
   image("../figuras/boveda-cda.jpg", width: 100%),
   caption: [Bóveda de almacenamiento del acervo fílmico del CDA.],
 ) <fig-boveda>
 
-Dentro del abanico de actividades de la institución, este proyecto se enfoca de manera específica en la *conservación del material audiovisual en los calibres de 16 mm y 35 mm*, que es la tarea operativa más crítica del centro. Contar con una copia digital en alta resolución facilita el acceso a los documentos y evita la manipulación del original analógico para tareas de reproducción.
+Dentro del abanico de actividades de la institución, este proyecto se enfoca de manera específica en la *conservación del material audiovisual en los calibres de 16 mm y 35 mm*, que es la tarea operativa más crítica del centro. Disponer de una copia digital en alta resolución cumple dos funciones a la vez: abre el documento a la consulta y retira al original del circuito de reproducción, que hasta ahora exigía manipularlo en un proyector @uncinnova-cda. Esa separación es un principio archivístico establecido: la FIAF distingue entre elementos maestros, irremplazables, y elementos de acceso, que pueden manipularse sin poner en riesgo la obra @fiaf-best-practice.
 
 La conservación de este patrimonio suele plantearse por varias vías, pero en la práctica el abanico de opciones reales es muy acotado:
 
-- *Almacenamiento controlado.* Mantener los filmes en bóvedas con temperatura y humedad reguladas no resuelve el problema, solo retrasa un deterioro que es químicamente inevitable. En el acetato de celulosa, que es el material de base de la mayor parte del acervo, ese deterioro se conoce como síndrome del vinagre, y una vez iniciado no se revierte. La sección 2.1 desarrolla el mecanismo.
+- *Almacenamiento controlado.* Es la medida de conservación más eficaz que existe y ninguna otra la reemplaza. Un filme nuevo tiene una expectativa de vida estimada en unos 500 años a 5 °C y 35 % de humedad relativa @fiaf-best-practice. Sin embargo, no actua sobre el material ya dañado. El acetato de celulosa, que es el material de base de la mayor parte del acervo, se degrada por el llamado síndrome del vinagre, y una vez iniciado el proceso el frío lo desacelera pero no lo revierte. La sección 2.1 desarrolla el mecanismo.
 
 - *Hallazgos físicos.* Buscar copias nuevas depende de la suerte de encontrar piezas en mejor estado que las archivadas, algo cada vez menos frecuente.
 
@@ -23,18 +23,18 @@ La conservación de este patrimonio suele plantearse por varias vías, pero en l
 
 - *Digitalización.* Es la única vía que cambia el medio de almacenamiento y, con eso, la única que desacopla la información de un material de base que se degrada.
 
-El problema se agrava en el plano geográfico e institucional. En Córdoba no existen actualmente equipos capaces de digitalizar 16 mm o 35 mm a nivel profesional, y en el ámbito privado las pocas empresas idóneas operan en Buenos Aires a costos prohibitivos para un presupuesto universitario. Por eso la digitalización de esos dos calibres es el foco central de este proyecto y el cuello de botella operativo más relevante de la institución.
+El problema se agrava en el plano geográfico e institucional. En Córdoba no existen equipos capaces de digitalizar 35 mm, y en el ámbito privado las empresas que prestan ese servicio operan en Buenos Aires a costos muy elevados para un presupuesto universitario @uncinnova-cda. En 16 mm la situación es equivalente por otra vía: el cese del telecine que se describe más abajo dejó al laboratorio sin capacidad instalada. Por eso la digitalización de esos dos calibres es el foco central de este proyecto y el cuello de botella operativo más relevante de la institución.
 
 === Del telecine al prototipo manual
 
-A mediados de 2009, mediante un subsidio de la Secretaría de Ciencia y Tecnología de la UNC, el CDA adquirió un telecine comercial MWA FlashTransfer de origen alemán. #nota[Con ese equipo se volcaron más de 400 horas de material a soporte digital antes de que quedara fuera de servicio.] El equipo transfería filmes de 16 mm a resolución estándar DV-PAL y años más tarde recibió intervenciones sobre la óptica y la captura para intentar llevarlo a ultra alta definición. La obsolescencia acumulada, el desgaste mecánico y la imposibilidad de importar repuestos o contratar servicio técnico especializado terminaron por dejarlo definitivamente fuera de servicio.
+A mediados de 2009, mediante un subsidio de la Secretaría de Ciencia y Tecnología de la UNC, el CDA adquirió un telecine comercial MWA FlashTransfer de origen alemán @cda-boletin1. #nota[Con ese equipo se volcaron más de 400 horas de material a soporte digital antes de que quedara fuera de servicio @cda-boletin1.] El equipo transfería filmes de 16 mm a resolución estándar DV-PAL y años más tarde recibió intervenciones sobre la óptica y la captura para intentar llevarlo a ultra alta definición. La obsolescencia acumulada, el desgaste mecánico y la imposibilidad de importar repuestos o contratar servicio técnico especializado terminaron por dejarlo definitivamente fuera de servicio.
 
 #figure(
   image("../figuras/digitalizador-roto.jpg", height: 190mm),
   caption: [Telecine MWA FlashTransfer de 16 mm, fuera de servicio.],
 ) <fig-telecine>
 
-Para no paralizar el rescate del archivo, el CDA diseñó un prototipo de escáner económico adaptando una antigua mesa bobinadora horizontal plana de 35 mm. El equipo integró una ventanilla de presión reciclada para mantener el filme plano, una fuente de luz LED con difusor esmerilado opaco, y una cámara Canon EOS R50 con anillos de extensión para capturar en UHD (3840 × 2160) la imagen, las perforaciones y la banda de sonido óptico, esta última procesada con el software libre AEO-Light @aeo-light.
+Para no paralizar el rescate del archivo, el CDA diseñó un prototipo de escáner económico adaptando una antigua mesa bobinadora horizontal plana de 35 mm. El equipo integró una ventanilla de presión reciclada para mantener el filme plano, una fuente de luz LED con difusor esmerilado opaco, y una cámara Canon EOS R50 con anillos de extensión para capturar en UHD (3840 × 2160) la imagen, las perforaciones y la banda de sonido óptico, esta última procesada con el software libre AEO-Light @aeo-light. El prototipo se originó en el marco de la recuperación de las películas de la Cinemateca de la Escuela de Artes, con la consigna explícita de construirlo a partir de piezas recicladas de equipos existentes y software libre @uncinnova-cda.
 
 #figure(
   image("../figuras/digitalizador-manual.jpg", width: 100%),
@@ -56,14 +56,14 @@ Contra la escala del acervo, ese número es un problema central:
   tabla(
     columnas: (1fr, auto, 38mm),
     cabecera: ("Magnitud", "Valor", "Origen"),
-    [Rollos custodiados], [75.000], [estimación del CDA],
+    [Rollos inventariados], [70.000], [inventario CDA 1994],
     [Duración media por rollo], [10 min], [estimación conservadora],
     [Fotogramas por rollo], [14.400], [10 min × 60 s × 24 fps],
-    [Fotogramas en el acervo], [1.080 millones], [75.000 × 14.400],
+    [Fotogramas en el acervo], [1.008 millones], [70.000 × 14.400],
     [Cadencia manual medida], [2 s por fotograma], [medición en el laboratorio],
-    [Horas hombre], [600.000 h], [1.080 millones × 2 s],
+    [Horas hombre], [560.000 h], [1.008 millones × 2 s],
     [Jornada laboral considerada], [2.000 h por año], [8 h × 250 días],
-    [Años de una persona], [más de 300], [600.000 ÷ 2.000],
+    [Años de una persona], [280], [560.000 ÷ 2.000],
   ),
   kind: table,
   caption: [Escala del acervo fílmico del CDA contra la cadencia del método manual.],
@@ -99,13 +99,26 @@ Diseñar, construir e implementar un sistema mecatrónico modular y de código a
 
 Tres razones sostienen que este desarrollo sea pertinente y necesario dentro de la universidad, y que justifiquen su continuidad más allá de la tesis de grado:
 
-*Integración disciplinar.* Un proyecto integrador tiene que cruzar áreas afines a la carrera. En particular, el presente trabajo concede los siguientes enfoques:
-- *Electrónica:* diseño de placas, buses y gestión de potencia.
-- *Sistemas embebidos:* firmware sobre un sistema operativo de tiempo real, generación de señales de temporización y abstracción de enlace mediante llamadas a procedimientos remotos.
-- *Software:* procesamiento digital de imágenes, protocolos de red y múltiples interfaces de operación.
-- *Ingeniería de requerimientos:* el problema se enuncia en un dominio y se resuelve en otro. Las necesidades llegan en términos de acervo, conservación y deterioro, y salen como tolerancias, protocolos, algoritmos y piezas. Los requerimientos son el mecanismo de traducción entre ambos mundos.
+*Integración disciplinar.* Un proyecto integrador tiene que cruzar áreas afines a la carrera, y este las cruza en un solo artefacto: cada disciplina resuelve una parte del ciclo por fotograma y ninguna alcanza por sí sola.
 
-*Patrimonio y acceso.* El acervo del CDA mantiene registros de la vida universitaria, de la política cordobesa de los sesenta y setenta, y la cinematografía local, nacional, regional e internacional del período. La digitalización es lo que convierte ese material en algo consultable para la sociedad, y esa dimensión que se desprende es una de las misiones de la institución: preservar y poner a disposición de la comunidad patrimonio cultural.
+#figure(
+  tabla(
+    columnas: (auto, 1fr),
+    cabecera: ("Disciplina", "Aporte al sistema"),
+    [Electrónica], [Diseño de placas, buses de comunicación y gestión de potencia de los motores.],
+    [Sistemas operativos y embebidos], [Firmware sobre un sistema de tiempo real, con tareas concurrentes y temporización determinista.],
+    [Control de movimiento], [Perfiles de aceleración y regulación de la tensión del filme sobre tres ejes acoplados.],
+    [Procesamiento de imágenes], [Ubicación del fotograma y medición del centrado sobre la propia imagen capturada.],
+    [Protocolos de red], [Control remoto de la cámara sobre HTTP y enlace serie entramado hacia el microcontrolador.],
+    [Ingeniería de software], [Arquitectura en capas, interfaces de operación y verificación automatizada.],
+    [Ingeniería de requerimientos], [Traducción del problema archivístico a tolerancias, algoritmos y piezas verificables.],
+    [Diseño mecánico], [Modelado paramétrico por código de las piezas de adaptación y fabricación por impresión 3D.],
+  ),
+  kind: table,
+  caption: [Disciplinas que el proyecto integra y qué resuelve cada una.],
+) <tbl-disciplinas>
+
+*Patrimonio y acceso.* El acervo del CDA mantiene registros de la vida universitaria, de la política cordobesa de los sesenta y setenta, y la cinematografía local, nacional, regional e internacional del período @cda-canal10 @cda-consultas. La digitalización es lo que convierte ese material en algo consultable para la sociedad, y esa dimensión que se desprende es una de las misiones de la institución: preservar y poner a disposición de la comunidad patrimonio cultural.
 
 *Soberanía técnica.* El telecine MWA quedó fuera de servicio porque no había repuestos ni servicio técnico al alcance. Un equipo cerrado le transfiere al proveedor la decisión de hasta cuándo sigue funcionando, y esa decisión ya se tomó una vez en contra del laboratorio. Un equipo abierto, modular y armado con piezas replicables localmente, con impresión 3D, microcontroladores de línea y drivers de catálogo, devuelve esa decisión a la institución y se considera una respuesta más acorde a la de adquirir un equipo nuevo.
 
@@ -118,7 +131,7 @@ Esta sección fija la frontera del sistema: qué queda del lado del proyecto, qu
 
 === Alcance del desarrollo
 
-- *Calibres.* El sistema se diseña para 16 mm y 35 mm, y se valida sobre 16 mm, que es el calibre mayoritario del acervo y el que dejó paralizado el cese del telecine. El de 35 mm se aborda como compatibilidad mecánica y óptica del diseño, verificada en ensayos puntuales. Los calibres domésticos (8 mm, Super 8) y los soportes fotográficos quedan explícitamente afuera: no comparten geometría de perforación ni condiciones de tracción.
+- *Calibres.* El sistema se diseña para 16 mm y 35 mm, y se valida sobre 16 mm, que es el calibre mayoritario del acervo @cda-consultas y el que dejó paralizado el cese del telecine. El de 35 mm se aborda como compatibilidad mecánica y óptica del diseño, verificada en ensayos puntuales. Los calibres domésticos (8 mm, Super 8) y los soportes fotográficos quedan explícitamente afuera: no comparten geometría de perforación ni condiciones de tracción.
 
 - *Cadena cubierta.* El desarrollo abarca el transporte motorizado del filme, el centrado automático del fotograma por visión artificial, el disparo remoto de la cámara y el registro de lo ocurrido en cada fotograma. Empieza cuando el rollo ya está montado y termina cuando la imagen fue capturada.
 

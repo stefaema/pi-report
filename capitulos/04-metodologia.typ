@@ -4,7 +4,7 @@
 
 La metodología de este proyecto es el conjunto de procedimientos que responden a los requerimientos de modularidad (R06), documentación (R07) y capacidad de mantenimiento (R09).
 
-Lo que sigue declara cómo se organiza el trabajo, cómo se verifica, y qué se hace cuando algo falla.
+Lo que sigue declara qué se le exige al proceso de trabajo: cómo se organiza, cómo se verifica y qué se hace cuando algo falla. Las herramientas concretas que satisfacen cada una de esas exigencias se tratan en la parte II, junto con el resto de las decisiones de implementación. La separación es deliberada: una exigencia metodológica sobrevive al cambio de la herramienta que hoy la cumple, y mezclarlas haría que reemplazar una herramienta pareciera un cambio de método.
 
 == Ciclo de vida en desarrollo
 
@@ -20,7 +20,7 @@ Todo el proyecto vive en un único repositorio, con una carpeta por módulo, de 
 
 #nota[Se entiende por módulo lo que se construye y se verifica por separado.]
 
-- *Subsistemas*, que son las partes del equipo: firmware, detección, captura, aplicación central, interfaz gráfica, placas y carcaza.
+- *Subsistemas*, que son las partes del equipo: firmware, transporte, detección, captura, aplicación central, interfaz gráfica, ccapi, placas y carcaza.
 
 - *Librerías*, creadas como utilidades fundamentales para el sistema: el protocolo de comunicación y el driver del motor.
 
@@ -30,52 +30,42 @@ Un solo repositorio y no uno por módulo, porque la sinergia vive en las interfa
 
 Las librerías quedan al mismo nivel y no dentro del subsistema que las usa, porque desde afuera no tienen cómo nombrarlo. La independencia queda forzada y no confiada a la disciplina de quien las edita.
 
-=== Ramas y flujo de trabajo
+=== Aislamiento del trabajo en curso
 
-El ciclo de vida de la sección anterior pide que cada iteración quede verificada y aislada antes de sumarle la siguiente. Esa es la función de las ramas, que acá son de tres clases.
+El ciclo de vida pide que cada iteración quede verificada y aislada antes de sumarle la siguiente, y eso exige tres grados de madurez distintos y no dos.
+#nota[En la parte de desarrollo esta sección se traducirá en el sistema de ramas de Git utilizado.]
 
-Cada iteración se desarrolla en una *rama de subsistema*, nombrada por el que toca. Al terminarla se incorpora a la *rama de integración*, que exige que las pruebas unitarias pasen. La *línea principal* recibe a la rama de integración solo cuando además pasan las pruebas que cruzan subsistemas, y es sobre ella que se etiquetan las versiones.
-
-Esa escala intermedia existe porque mientras un subsistema está a medio construir, las pruebas que lo cruzan con otro no pueden pasar porque el otro extremo todavía no existe.
-
-Cada incorporación se registra con un commit de unión, que marca el cierre de la iteración.
-
-Los mensajes de commit siguen una convención que exige declarar el módulo afectado y un asunto breve. Ante una regresión una historia con mensajes uniformes se puede filtrar para responderla mientras que una historia con mensajes libres no.
+Hace falta un espacio donde un subsistema pueda estar a medio construir sin romper nada, otro donde los subsistemas terminados convivan aunque el sistema completo todavía no cierre, y un tercero que solo reciba lo que pasó todas las comprobaciones y sobre el que se etiquetan las versiones. 
 
 === Esquema de versionado
 
-Decir "la versión del sistema" puede ser ambiguo si no se aclara primero que dimensión se está atacando.
+Decir "la versión del sistema" puede ser ambiguo si no se aclara primero qué dimensión se está atacando. Son tres, y cada una responde a una pregunta distinta.
 
-La *versión del sistema* es una etiqueta sobre la línea principal, con el esquema mayor, menor y corrección. Es lo que cobra el argumento del monorepo: un único número que designa un firmware, un software, unas placas y unas piezas mecánicas que se probaron juntos.
+La *versión del sistema* designa un conjunto de firmware, software, placas y piezas mecánicas que se probaron juntos. Es lo que cobra el argumento del repositorio único: un solo número describe un equipo completo y verificado.
 
-La *versión de la interfaz* entre la PC y el microcontrolador es un número propio, transportado por el protocolo mismo. Hace falta porque el firmware no corre desde el repositorio sino desde la memoria del microcontrolador, y ahí puede estar atrasado. Por eso informa qué versión habla, y la aplicación central se niega a operar si no coincide con la suya. Ese número solo se incrementa al llegar a la rama principal.
 
-La *versión del entorno* es el archivo de fijación de dependencias descrito en la sección siguiente. No se elige ni se incrementa a mano: se actualiza cuando se decide mover la cadena de herramientas, y queda registrada en el repositorio como un cambio más.
+La *versión del entorno* identifica la cadena de herramientas con la que el proyecto se construye. No se elige ni se incrementa a mano: cambia cuando se decide mover esa cadena, y queda registrada en el repositorio como un cambio más.
 
+#pendiente[ver lo de version de interfaces cuando ya esté andando todo]
 == Reproducibilidad del entorno
 
 Las dependencias de compilación no se documentan como instrucciones a seguir, se declaran de forma ejecutable y con las versiones fijadas. Así la cadena de herramientas que compila el proyecto se obtiene en un paso, y es la misma en cualquier máquina y en cualquier momento.
 
-La herramienta que ejecuta esa declaración es Nix. #nota[Nix es un lenguaje declarativo y el gestor de paquetes que lo evalúa. Cada resultado vive en una ruta derivada del hash de sus entradas, así una dependencia no declarada hace fallar la construcción en vez de tomarse de la máquina. Su interfaz son los *flakes*, que fijan las entradas y exponen salidas con nombre: un paquete, un entorno de trabajo o una batería de comprobaciones @nix-dev.] Cada módulo declara qué necesita para compilarse, y un archivo de bloqueo fija la revisión exacta de cada dependencia, hasta la del compilador. Nada de eso se instala en el sistema: lo construido o descargado queda en un almacén aparte, y entrar al entorno de un módulo solo pone esas rutas al alcance de esa terminal. De esta forma, pueden convivir librerías que de otra manera se pisarían, y un cambio de versión de una dependencia no rompe nada que no lo haya declarado.
+De esa exigencia se desprenden tres condiciones. Cada módulo tiene que declarar qué necesita para compilarse, hasta la versión del compilador, de modo que una dependencia no declarada haga fallar la construcción en lugar de tomarse en silencio de la máquina de quien compila. Las declaraciones de todos los módulos tienen que apuntar a una fijación única, para que una sola revisión describa la cadena de herramientas del proyecto entero. Y el entorno de un módulo no puede instalarse en el sistema anfitrión, porque módulos distintos necesitan versiones que de otro modo se pisarían.
 
-Todas las declaraciones apuntan a una fijación única en la raíz del repositorio, de modo que una sola revisión describe la cadena de herramientas del proyecto entero. Eso es la versión del entorno de la sección anterior, y se versiona como cualquier otro archivo.
+La declaración, eso sí, está limitada aguas arriba: dice cómo reconstruir el entorno a partir de fuentes que se descargan, y la reconstrucción es exacta mientras esas fuentes sigan disponibles. Por eso la reproducibilidad declarativa no alcanza por sí sola, y el proyecto tiene que producir además artefactos archivables por cada versión etiquetada. Son dos resguardos con propósitos distintos: uno de desarrollo, que debe permitir recompilar y modificar el sistema sin depender de que las fuentes externas sigan en línea, y uno de producción, que debe permitir volver a poner el equipo en operación sin compilar nada.
 
-La declaración, eso sí, está limitada aguas arriba: dice cómo reconstruir el entorno a partir de fuentes que se descargan. La reconstrucción es exacta mientras esas fuentes sigan disponibles.
+== Todo lo que define al sistema es código
 
-#pendiente[Definir la entrega de artefactos ejecutables para su archivo, como resguardo ante la eventual indisponibilidad de las fuentes externas. Evaluar, por cada versión etiquetada: exportar la clausura del entorno de compilación a un almacén local, archivar los artefactos derivados (binario del firmware, archivos de fabricación de las placas, mallas de las piezas, PDF de la documentación) y publicar una imagen de máquina virtual con el entorno de desarrollo completo. Conviene distinguir dos resguardos con propósitos distintos: el de desarrollo, que debe permitir recompilar y modificar el sistema, y el de producción, que debe permitir volver a poner el equipo en operación sin compilar nada.]
+Todo lo que define al sistema se escribe en un lenguaje y se versiona, incluso aquello que no suele pensarse como programa. La regla separa dos clases de artefacto.
 
-== Lenguajes y herramientas
+Están los que describen *lo que el sistema hace*, y ahí la elección de lenguaje responde a lo que cada lado exige: determinismo temporal, rendimiento y tamaño del binario del lado del microcontrolador; versatilidad del ecosistema y rapidez de desarrollo del lado de la PC.
 
-Todo lo que define al sistema se escribe en un lenguaje y se versiona, incluso aquello que no suele pensarse como programa. De ahí salen tres lenguajes, y conviene separarlos por lo que definen.
+Y están los que describen *cómo se construye el sistema*. Que la cadena de herramientas se declare en un lenguaje, y no en un instructivo, es lo que la convierte en un archivo fuente del proyecto, sujeto a las mismas revisiones y al mismo historial que el resto.
 
-Dos describen lo que el sistema hace. C para el firmware, donde importa el determinismo temporal, el rendimiento y el tamaño del binario; Python para todo lo que corre en la PC, donde importa la versatilidad del ecosistema y la rapidez de desarrollo.
+La regla se extiende a los artefactos que tradicionalmente quedan fuera del control de versiones. Los modelos mecánicos y los planos se definen por código, de modo que una pieza es un programa que se ejecuta y produce su geometría, y una cota se cambia editando un parámetro y regenerando el resultado.
 
-El tercero describe cómo se construye. Nix es el lenguaje en que está escrita la declaración de entorno de la sección anterior, y su presencia acá es clave: la cadena de herramientas dejó de ser un procedimiento que alguien sigue y pasó a ser un archivo fuente del proyecto, sujeto a las mismas revisiones y al mismo historial que el resto.
-
-Los modelos mecánicos y los planos mantienen esa regla, porque se definen por código en Python con `build123d` @build123d, una librería capaz de describir CAD en este lenguaje. Una pieza es un programa que se ejecuta y produce su geometría, así que una cota se cambia editando un parámetro y el resultado se regenera.
-
-Las placas son el caso donde la regla no se mantiene. Se diseñan con KiCad @kicad, cuyos archivos de esquemático y de ruteo son texto y se versionan bien, pero no se escriben sino que se editan con una herramienta gráfica. El diseño de KiCad es la fuente, y los archivos que se le mandan al fabricante
-(Gerber de cada capa y taladrado), son su salida: se regeneran desde el diseño y no se editan a mano.
+Las placas son el caso donde la regla no se sostiene del todo, y conviene declararlo en lugar de disimularlo. Su diseño se edita con una herramienta gráfica, aunque los archivos resultantes sean texto y se versionen bien.
 
 == Estrategia de pruebas
 
@@ -107,17 +97,17 @@ El dataset de referencia de detección es en sí mismo un artefacto versionado d
 
 == Automatización de la verificación
 
-El conjunto de comprobaciones se declara como una salida más del entorno reproducible, quedando entonces una sola orden, con sus herramientas fijadas, que produce el mismo resultado en cualquier máquina. #nota[Todo esto corre en la máquina de desarrollo, lo que evita atarse a la disponibilidad y al precio de un servidor. Nix vuelve viable esa elección, porque trae fijadas sus propias herramientas.]
+El conjunto de comprobaciones se declara como una salida más del entorno reproducible. De ahí que verificar el proyecto sea una sola orden, con sus herramientas fijadas, que produce el mismo resultado en cualquier máquina.
 
-Esa orden se engancha en los tres tipos de rama de 4.2.2, y cada uno exige lo que a esa altura tiene sentido exigir.
+Esa orden se engancha en los tres grados de madurez de 4.2.2, y cada uno exige lo que a esa altura tiene sentido exigir.
 
 + *Al registrar un cambio* corre lo barato, ya que los commits son frecuentes: formato y análisis estático sobre los archivos modificados, y validación del mensaje del commit contra la convención.
-+ *Al incorporar una rama de subsistema a la de integración* se compila el firmware y/o el software y se ejecutan las pruebas unitarias. Es todo lo que se le puede pedir a un subsistema terminado sin depender de que los demás lo estén.
-+ *Al incorporar la rama de integración a la principal* se suman las pruebas que cruzan subsistemas y la regeneración de la documentación derivada del código. Si algo falla, la línea principal no avanza.
++ *Al integrar un subsistema terminado* se compila y se ejecutan las pruebas unitarias. Es todo lo que se le puede pedir a un subsistema sin depender de que los demás estén listos.
++ *Al promover el sistema completo* se suman las pruebas que cruzan subsistemas y la regeneración de la documentación derivada del código. Si algo falla, la versión no avanza.
 
-La regresión es el objetivo de fondo. En un sistema donde el transporte, la detección y la captura se coordinan, un ajuste en cualquiera de los tres puede degradar a otro, por lo que una batería de pruebas automática prevee esto.
+La regresión es el objetivo de fondo. En un sistema donde el transporte, la detección y la captura se coordinan, un ajuste en cualquiera de los tres puede degradar a otro, y una batería de pruebas automática es lo que lo advierte a tiempo.
 
-Este capítulo declara qué se verifica y cuándo. Cómo está implementado, qué herramienta corre cada comprobación y cómo se engancha al control de versiones, se trata en el capítulo 5.
+Este capítulo declara qué se verifica y cuándo. Con qué herramientas, y cómo se engancha cada comprobación al control de versiones, se trata en el capítulo 5.
 
 == Seguridad de operación y detección de fallas
 
@@ -125,8 +115,7 @@ El material es único y el sistema lo transporta mecánicamente, así que la det
 
 - *Corte de la etapa de potencia.* La parada urgente consiste en quitarle la habilitación al driver.
 
-- *Enlace supervisado por temporizador.* Un movimiento iniciado desde la PC en el equipo de transporte sobrevive a la llamada que lo inició. Si el orquestador se cae o el cable se desconecta, se debe detectar al hombre muerto, exigiendo que se manden pulsaciones, para que un silencio detenga el avance. El temporizador se arma solo cuando hay movimiento, de modo que un equipo quieto puede quedar horas sin recibir órdenes.
-#pendiente[Rehacer]
+- *Enlace supervisado por temporizador.* Un movimiento iniciado desde la PC sobrevive a la llamada que lo inició, así que el equipo tiene que poder distinguir entre un orquestador que sigue vivo y uno que se cayó. La ausencia de señal durante un movimiento en curso debe detener el avance, y la supervisión solo puede estar activa mientras haya movimiento, de modo que un equipo quieto pueda quedar horas sin recibir órdenes.
 
 - *Corroboración cruzada entre subsistemas.* Es el mecanismo más valioso. El transporte informa cuántos pulsos emitió, que es una estimación de cuánto avanzó la película, mientras que la detección observa la película y mide dónde está el fotograma. Son dos estimaciones independientes de la misma magnitud física, y su desacuerdo es información: si el transporte dice que se movió y la imagen no cambió, hay pérdida de pasos, un atasco o un patinamiento; si la imagen se corre cuando no se ordenó ningún movimiento, hay arrastre o una orden espuria. El orquestador vigila esa coherencia y detiene el ciclo cuando se rompe. Es también lo que permite cerrar un lazo sobre un motor que por sí solo no mide nada, cuestión que el capítulo 2 plantea como problema abierto.
 #pendiente[Ver si es fehacible]
@@ -189,3 +178,12 @@ Los riesgos se identifican al inicio y se les asigna una mitigación concreta, d
 El proyecto es de código y hardware abiertos, y la documentación forma parte del entregable en el mismo nivel que el código. Esa decisión es instrumental: un sistema cuyo diseño se puede leer, cuyo entorno de compilación se puede reconstruir y cuyas piezas se pueden volver a fabricar es un sistema que la institución puede mantener sin depender de un proveedor. Es la única propiedad que garantiza que este equipo no termine como el que reemplaza.
 
 #pendiente[Definir la licencia del proyecto según lo que establezca la reglamentación de la facultad sobre propiedad intelectual de los trabajos finales. Conviene decidirlo antes de publicar el repositorio, y tener en cuenta que el software y el hardware suelen requerir licencias distintas, ya que una licencia de software no cubre correctamente esquemáticos ni piezas físicas.]
+
+#pendiente[*Deuda hacia la parte II.* Este capítulo quedó como planteo puro: declara qué se le exige al proceso y no con qué se cumple. Todo lo concreto que se sacó tiene que aparecer en la parte II, en "Arquitectura de desarrollo" (5.2) o en un capítulo propio si crece demasiado. La lista de lo que hay que ubicar allá:
+
+- *Reproducibilidad (4.3).* Nix como lenguaje y gestor que ejecuta la declaración, los flakes y sus salidas con nombre, el archivo de bloqueo, el almacén aparte y la fijación única en la raíz. Y los artefactos archivables por versión: exportación de la clausura del entorno, binario del firmware, archivos de fabricación de las placas, mallas de las piezas, PDF de la documentación, e imágenes de máquina virtual o de contenedor para el resguardo de desarrollo y el de producción.
+- *Lenguajes (4.4).* C para el firmware y Python para la PC, con su justificación; Nix como lenguaje de construcción; `build123d` para los modelos mecánicos; KiCad para las placas, con la distinción entre el diseño como fuente y los Gerber y taladrado como derivados.
+- *Documentación (4.9).* La herramienta que genera la documentación derivada del código, que hoy el capítulo menciona sin nombrar.
+- *Aislamiento del trabajo (4.2.2).* Los nombres concretos de las tres ramas, el flujo de incorporación y la convención de mensajes de commit.
+- *Versionado (4.2.3).* El esquema mayor, menor y corrección, y el mecanismo por el que la versión de interfaz se incrementa al llegar a la rama principal.
+- *Verificación (4.6).* El corredor único de comprobaciones, cómo descubre los módulos, qué herramienta corre cada nivel de prueba, y los enganches al control de versiones con su instalación al activar el entorno.]
